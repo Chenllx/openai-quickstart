@@ -9,11 +9,13 @@ class ArgumentParser:
         self.parser.add_argument('--timeout', type=int, help='Timeout for the API request in seconds.')
         self.parser.add_argument('--openai_model', type=str, help='The model name of OpenAI Model. Required if model_type is "OpenAIModel".')
         self.parser.add_argument('--openai_api_key', type=str, help='The API key for OpenAIModel. Required if model_type is "OpenAIModel".')
+        self.parser.add_argument('--openai_base_url', type=str, help='Base url')
         self.parser.add_argument('--book', type=str, help='PDF file to translate.')
+        self.parser.add_argument('--language', type=str, help='Language')
         self.parser.add_argument('--file_format', type=str, help='The file format of translated book. Now supporting PDF and Markdown')
 
     def parse_arguments(self):
         args = self.parser.parse_args()
-        if args.model_type == 'OpenAIModel' and not args.openai_model and not args.openai_api_key:
-            self.parser.error("--openai_model and --openai_api_key is required when using OpenAIModel")
+        if args.model_type == 'OpenAIModel' and not args.openai_model and not args.openai_api_key or not args.openai_base_url:
+            self.parser.error("--openai_model and --openai_api_key and --openai_base_url is required when using OpenAIModel")
         return args
